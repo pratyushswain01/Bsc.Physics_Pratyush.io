@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>For My Beloved Wife</title>
+<style>
+  /* Reset & base */
+  * {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #400000;
+    padding: 1rem;
+    max-width: 350px;
+    margin: auto;
+    height: 600px;
+  }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.06em;
+    color: #b22222;
+    text-shadow:
+      1px 1px 2px #fff5f5,
+      2px 2px 5px #c93838;
+    animation: pulse 3s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { text-shadow: 1px 1px 2px #fff5f5, 2px 2px 5px #c93838; }
+    50% { text-shadow: 2px 2px 6px #fff5f5, 4px 4px 10px #ff4c4c; }
+  }
+  p.message {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+    color: #5a1a1a;
+    text-shadow: 1px 1px 4px #ffd5d5;
+    line-height: 1.5;
+  }
+  button#surpriseBtn {
+    background: #b22222;
+    border: none;
+    padding: 0.7rem 2rem;
+    font-size: 1.1rem;
+    color: #fff7f7;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px #aa0000a6;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    user-select: none;
+  }
+  button#surpriseBtn:hover {
+    background: #d13434;
+    box-shadow: 0 8px 22px #d134344f;
+    transform: scale(1.05);
+  }
+  button#surpriseBtn:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px #a52a2a;
+  }
+  /* Heart shapes */
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #d13434;
+    transform: rotate(-45deg);
+    opacity: 0.8;
+    animation: floatUp linear infinite;
+  }
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #d13434;
+    border-radius: 50%;
+  }
+  .heart::before {
+    top: -10px;
+    left: 0;
+  }
+  .heart::after {
+    top: 0;
+    left: 10px;
+  }
+  @keyframes floatUp {
+    0% {
+      opacity: 0.8;
+      transform: translateY(0) rotate(-45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-600px) rotate(-45deg);
+    }
+  }
+  /* Surprise message modal */
+  #surpriseModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    max-width: 320px;
+    padding: 2rem;
+    background: #fff0f0;
+    border-radius: 20px;
+    box-shadow: 0 6px 30px rgba(178, 34, 34, 0.7);
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 1000;
+    text-align: center;
+  }
+  #surpriseModal.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #surpriseModal p {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #b22222;
+    margin-bottom: 1rem;
+  }
+  #closeModal {
+    background: #b22222;
+    border: none;
+    color: #fff7f7;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px #aa0000a6;
+    transition: background 0.3s;
+  }
+  #closeModal:hover {
+    background: #d13434;
+  }
+  /* Responsive tweaks for smaller screens */
+  @media (max-width: 360px) {
+    body {
+      padding: 0.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    p.message {
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>To My Beloved Wife ❤️</h1>
+<p class="message">You light up my world every day. This little surprise is just for you.<br>With all my heart.</p>
+<button id="surpriseBtn">Click Me for a Surprise</button>
+
+<div id="surpriseModal">
+  <p>You're my everything. Love you forever! 💖</p>
+  <button id="closeModal">Close</button>
+</div>
+
+<script>
+  // Floating hearts creation and animation
+  const colors = ['#b22222', '#d13434', '#ff4c4c', '#ff7b7b'];
+  const maxHearts = 25;
+  const hearts = [];
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = random(5, 345) + 'px';
+    heart.style.animationDuration = random(5, 12) + 's';
+    heart.style.width = heart.style.height = random(15, 25) + 'px';
+    heart.style.backgroundColor = colors[Math.floor(random(0, colors.length))];
+    heart.style.opacity = random(0.6, 0.9);
+    heart.style.top = '600px'; // start from bottom
+    document.body.appendChild(heart);
+    hearts.push(heart);
+
+    // Remove heart after animation
+    setTimeout(() => {
+      heart.remove();
+      hearts.splice(hearts.indexOf(heart), 1);
+    }, 12000);
+  }
+  function heartsFlow() {
+    if (hearts.length < maxHearts) {
+      createHeart();
+    }
+    requestAnimationFrame(heartsFlow);
+  }
+  heartsFlow();
+
+  // Surprise modal logic
+  const surpriseBtn = document.getElementById('surpriseBtn');
+  const surpriseModal = document.getElementById('surpriseModal');
+  const closeModal = document.getElementById('closeModal');
+
+  surpriseBtn.addEventListener('click', () => {
+    surpriseModal.classList.add('show');
+    surpriseBtn.disabled = true;
+    surpriseBtn.style.cursor = 'default';
+  });
+  closeModal.addEventListener('click', () => {
+    surpriseModal.classList.remove('show');
+    surpriseBtn.disabled = false;
+    surpriseBtn.style.cursor = 'pointer';
+  });
+
+  // Prevent scrolling on mobile to keep it perfectly fitted
+  window.addEventListener('touchmove', e => {
+    e.preventDefault();
+  }, { passive: false });
+</script>
+
+</body>
+</html>
+
